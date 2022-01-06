@@ -1,0 +1,74 @@
+---
+title: "Clustering"
+author: "Marc Riley"
+date: "6/2/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(cluster)
+library(factoextra)
+library(ggplot2)
+
+cluster_df <- read.csv("clustering-data.csv")
+
+# look at the data
+head(cluster_df)
+
+# plot the data
+
+ggplot(data =  cluster_df, aes(x=x, y=y)) + 
+  geom_point() + 
+  ggtitle("Scatterplot")
+# Fit the dataset using the k-means algorithm from k=2 to k=12. Create a scatter plot of the resultant clusters for each value of k.  
+
+#k-means2
+kmean2 <- kmeans(cluster_df, 2,)
+fviz_cluster(kmean2, geom = "point", data = cluster_df)
+
+kmean3 <- kmeans(cluster_df, 3,)
+fviz_cluster(kmean3, geom = "point", data = cluster_df)
+
+kmean4 <- kmeans(cluster_df, 4,)
+fviz_cluster(kmean4, geom = "point", data = cluster_df)
+
+kmean5 <- kmeans(cluster_df, 5,)
+fviz_cluster(kmean5, geom = "point", data = cluster_df)
+
+kmean6 <- kmeans(cluster_df, 6,)
+fviz_cluster(kmean6, geom = "point", data = cluster_df)
+
+kmean7 <- kmeans(cluster_df, 7,)
+fviz_cluster(kmean7, geom = "point", data = cluster_df)
+
+kmean8 <- kmeans(cluster_df, 8,)
+fviz_cluster(kmean8, geom = "point", data = cluster_df)
+
+kmean9 <- kmeans(cluster_df, 9,)
+fviz_cluster(kmean9, geom = "point", data = cluster_df)
+
+kmean10 <- kmeans(cluster_df, 10,)
+fviz_cluster(kmean10, geom = "point", data = cluster_df)
+
+kmean11 <- kmeans(cluster_df, 11,)
+fviz_cluster(kmean11, geom = "point", data = cluster_df)
+
+kmean12 <- kmeans(cluster_df, 12,)
+fviz_cluster(kmean12, geom = "point", data = cluster_df)
+
+#Instead, you will use the average distance from the center of each cluster as a measure of how well the model fits the data. To calculate this metric, simply compute the distance of each data point to the center of the cluster it is assigned to and take the average value of all of those distances.
+
+
+fviz_nbclust(cluster_df, kmeans, method = "wss", k.max = 12) +
+  geom_vline(xintercept = 5, linetype = 2)
+  
+```
+The elbow point seems to be at 4 or 5 clusters

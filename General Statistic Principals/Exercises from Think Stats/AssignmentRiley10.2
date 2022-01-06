@@ -1,0 +1,84 @@
+---
+title: "Exercise10.2"
+author: "Marc Riley"
+date: "5/23/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+install.packages(foreign)
+install.packages("caTools")
+
+library(foreign)
+
+library(caTools)
+
+
+- Set the working directory to the root of your DSC 520 directory
+``` {r}
+setwd("C:/Users/Daffy/OneDrive/Documents/DSC520")
+
+thoraric_df <- read.arff("ThoraricSurgery.arff")
+
+# look at the data
+
+str(thoraric_df)
+
+# Fit a binary logistic regression model to the data set that predicts whether or not the patient survived for one year (the Risk1Y variable) after the surgery. Use the glm() function to perform the logistic regression. See Generalized Linear Models for an example. Include a summary using the summary() function in your results.
+
+model<- glm(Risk1Yr ~., data= thoraric_df, family = 'binomial')
+
+summary (model)
+
+# According to the summary, which variables had the greatest effect on the survival rate?
+
+- the best variable appears to be PRE9t and PRE14OC14 
+
+# To compute the accuracy of your model, use the dataset to predict the outcome variable. The percent of correct predictions is the accuracy of your model. What is the accuracy of your model?
+
+change <- sample.split(thoraric_df,SplitRatio = .8)
+change 
+
+train<- subset(thoraric_df, change=="TRUE")
+test<- subset(thoraric_df, change=="FALSE")
+
+res<- predict(model,train, type="response")
+res
+
+confmatrix <- table(Actual_value=train$Risk1Yr, Predicted_value = res > 0.50)
+confmatrix
+
+(confmatrix[[1,1]] + confmatrix[[2,2]]) / sum(confmatrix)
+
+- Accuracy is 83%
+```
+
+## Fit a Logistic Regression Model
+
+- Fit a logistic regression model to the binary-classifier-data.csv dataset**
+
+``` {r}
+data <- read.csv("binary-classifier-data.csv") 
+model <- glm(label ~ x + y, data = data, family = binomial())
+summary(the_binary_model)
+```
+
+
+- What is the accuracy of the logistic regression classifier?**
+``` {R}
+set.seed(1498)
+train_binary_Index <- createDataPartition(data$label, p = .67,
+                                          list = F,
+                                          times = 1)
+train_binary_dataset <- data[train_binary_Index,]
+test_binary_dataset <- data[-train_binary_Index,]
+test_binary_dataset$model_binary_prob <- predict(the_binary_model, test_binary_dataset, type = "response")
+test_binary_dataset <- test_binary_dataset  %>% mutate(model_binary_pred = 1*(model_binary_prob > .50) + 0,
+                                                       actual_binary_results = 1*(label == 1) + 0)
+test_binary_dataset <- test_binary_dataset %>% mutate(accurate = 1*(model_binary_pred == actual_binary_results))
+sum(test_binary_dataset$accurate)/nrow(test_binary_dataset)
+```
+                                              
