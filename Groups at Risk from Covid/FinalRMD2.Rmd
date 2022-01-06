@@ -1,0 +1,79 @@
+---
+title: "FinalPT2"
+author: "Marc Riley"
+date: "5/24/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Probelm
+Now that Covid-19 has been prevalant in the United States for over a year I would like to determine which groups are most at risk. Hopefully this project will help people understand how concerned they need to be with contracting this disease. This can be accomplished by looking at data sets provid by the CDC that shows deaths by age group, race, and location. 
+
+## Potential questions
+1. What age group needs to be most cautios?
+2. What gender is more suseptable?
+3. Are you at higher risk of getting covid in certain states?
+
+## Data sets
+- https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-by-Sex-Age-and-S/9bhg
+hcku/data
+- https://covid.cdc.gov/covid-data-tracker/#vaccination-demographics-trends
+- https://covid.cdc.gov/covid-data-tracker/#variant-proportions
+
+## Variables
+1. Age
+2. Sex
+3. Location
+4. Deaths
+5. Time
+
+## Packages needed
+ggplot/tidyvers, psych, readxl, purr, dplyr
+
+## Plots/Tables
+Historgrams wiht trend lines, Discard, Cbind, Scatterplots
+
+# Step 2
+
+## How to import/Clean data
+
+All three files have been imported as csv file and changed to an excel file. There are many variables that need to be split or removed because they are unnecessary for my analysis. 
+
+## What does the final data set look like? 
+
+-Adjustments are still being made to the data set as of now the data set shows age broken down by key years, states, covid deaths, flu deaths, gender, and time frame.  
+
+```{r}
+
+library(readxl)
+Covid_df <- read_excel("CovidData.xlsx")
+summary(Covid_df)
+str(Covid_df)
+head(Covid_df)
+```
+## Questions for future steps.
+1. should other factors such as vaccines be looked at?
+2. Should gender be included even though I do not expect it to be a factor?
+3. Should states be removed to make the overall process easier?
+
+## What information is not self-evident? 
+
+Currently no operations have been run to see the correlation between age and deaths, but by looking at the raw data we are able to tell there is a correlation between those factors. 
+
+## How do you plan to slice and dice the data?
+
+If needed I can alter the age variable to narrow down exactly at what age sees the most significant increase in deaths. 
+
+## What types of plots and tables will help you to illustrate the findings to your questions?
+
+The plan is to still use Histograms, Scatterplots and run correlation tests.
+
+## Do you plan on incorporating any machine learning techniques to answer your research questions? Explain
+
+Once I am more comfortable with machine learning I would like to incorporate it to see any trends that might pop up as more data becomes avalibale.
+
